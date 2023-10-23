@@ -1,6 +1,18 @@
 const fastify = require("fastify");
 const fs = require("node:fs/promises");
 //basic server configuration, added an option to make logs more human readable by using pino-pretty
+const environment = process.env.NODE_ENV || "development";
+async function start() {
+  const config = await staticConfigLoader(environment);
+  const app = fastify(config.serverOptions.factory);
+  app.register(plugin, config.pluginOptions.fooBar);
+  app.register(plugin, {
+    bar: function () {
+      return config.pluginOptions ? 42 : -42;
+    },
+  });
+}
+
 const serverOptions = {
   logger: {
     level: "debug",
@@ -104,9 +116,14 @@ app.register(
   { hello: "the opts object" },
 );
 
-app
-  .listen({
-    port: 8080,
-    host: "0.0.0.0",
-  })
-  .then((address) => console.log(`server listening on ${address}`));
+await app.listen(config.serverOptions.listen);
+async function staticConfigLoader(environment) {
+  return {
+    environment,
+    serverOptions: getServerConfig(),
+    pluginOptions: {},
+    applicationOptions: {},
+  };
+}
+
+start();
