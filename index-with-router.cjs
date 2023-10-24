@@ -1,5 +1,5 @@
 const Fastify = require("fastify");
-const usersRouter = require("./users-router.cjs");
+const usersRouter = require("./routes/users-router.cjs");
 const app = Fastify();
 app.decorate("users", [
   {
