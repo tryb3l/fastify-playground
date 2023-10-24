@@ -8,9 +8,12 @@
   },
   "keywords": [],
   "author": "",
+  "engines": {
+    "node": "20"
+  },
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.8.8",
     "fastify-tsconfig": "^2.0.0",
     "pino-pretty": "^10.2.3",
     "typescript": "^5.2.2"
